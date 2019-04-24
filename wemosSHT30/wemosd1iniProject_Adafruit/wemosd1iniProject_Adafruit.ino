@@ -12,8 +12,6 @@ Adafruit_SSD1306 display(OLED_RESET);
 void setup() 
 {
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
-
-  
 }
  
 void loop() {
