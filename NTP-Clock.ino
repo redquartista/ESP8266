@@ -2,6 +2,19 @@
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
 #include <Adafruit_NeoPixel.h>
+<<<<<<< HEAD
+=======
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+#include <WEMOS_SHT3X.h>
+
+SHT3X sht30(0x45);
+ 
+#define OLED_RESET 0  // GPIO0
+Adafruit_SSD1306 display(OLED_RESET);
+  
+>>>>>>> sht30
 
 /*Network Settings*/
 #define STASSID
@@ -25,7 +38,11 @@ WiFiUDP udp;
 
 
 /*NeoPixel Settings*/
+<<<<<<< HEAD
 #define PIN 5
+=======
+#define PIN D5
+>>>>>>> sht30
 int hourIndex =0, minIndex =0, secIndex=0;
 //How many NeoPixels are attached to the Arduino?
 #define NUMPIXELS 24
@@ -34,13 +51,21 @@ Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
 void setup() 
 {
+<<<<<<< HEAD
+=======
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+  
+>>>>>>> sht30
   pixels.begin();
   pixels.clear();
 
   
   Serial.begin(115200);
+<<<<<<< HEAD
   Serial.println();
   Serial.println();
+=======
+>>>>>>> sht30
 
   // We start by connecting to a WiFi network
   Serial.print("Connecting to ");
@@ -53,7 +78,11 @@ void setup()
     delay(500);
     Serial.print(".");
   }
+<<<<<<< HEAD
   Serial.println("");
+=======
+  Serial.println();
+>>>>>>> sht30
 
   Serial.println("WiFi connected");
   Serial.println("IP address: ");
@@ -66,7 +95,15 @@ void setup()
 }
 
 void loop() 
+<<<<<<< HEAD
 {
+=======
+{  
+  pixels.setPixelColor(0, pixels.Color(0, 10, 0)); //pixels.Color(G,R,B);
+  pixels.setPixelColor(6, pixels.Color(0, 10, 0)); //pixels.Color(G,R,B);
+  pixels.setPixelColor(12, pixels.Color(0, 10, 0)); //pixels.Color(G,R,B);
+  pixels.setPixelColor(18, pixels.Color(0, 10, 0)); //pixels.Color(G,R,B);
+>>>>>>> sht30
   //get a random server from the pool
   WiFi.hostByName(ntpServerName, timeServerIP);
 
@@ -79,9 +116,15 @@ void loop()
   {
     Serial.println("no packet yet");
     pixels.clear();
+<<<<<<< HEAD
     pixels.setPixelColor(hourIndex, pixels.Color(0, 70, 0));
     pixels.show();
     pixels.setPixelColor(minIndex, pixels.Color(50, 0, 0));
+=======
+    pixels.setPixelColor(hourIndex, pixels.Color(50, 00, 0));
+    pixels.show();
+    pixels.setPixelColor(minIndex, pixels.Color(0, 0, 50));
+>>>>>>> sht30
     pixels.show();
   } 
   else 
@@ -128,8 +171,13 @@ void loop()
     {
       hourIndex = hours*2;  
     }
+<<<<<<< HEAD
     //Set RED LED to indicate hours
     pixels.setPixelColor(hourIndex, pixels.Color(0, 70, 0)); //pixels.Color(G,R,B);
+=======
+    //Set Green LED to indicate hours
+    pixels.setPixelColor(hourIndex, pixels.Color(20, 00, 0)); //pixels.Color(G,R,B);
+>>>>>>> sht30
     pixels.show();   // Send the updated pixel colors to the hardware.
     
     //Serial.print((epoch  % 86400L) / 3600); // print the hour (86400 equals secs per day)
@@ -143,9 +191,15 @@ void loop()
     seconds = epoch % 60;
     minIndex = (int)((minutes + (seconds/60))/2.5);
     
+<<<<<<< HEAD
     //Set GREEN LED for Minutes
     
     pixels.setPixelColor(minIndex, pixels.Color(50, 0, 0));
+=======
+    //Set Blue LED for Minutes
+    
+    pixels.setPixelColor(minIndex, pixels.Color(00, 0, 20));
+>>>>>>> sht30
     pixels.show();
     
     if (minutes < 10) 
@@ -162,9 +216,14 @@ void loop()
 
     secIndex = (int)(seconds/2.5);
     
+<<<<<<< HEAD
     //Set BLUE LED for Seconds
     
     pixels.setPixelColor(secIndex, pixels.Color(0, 0, 20));
+=======
+    //Set white LED for Seconds
+    pixels.setPixelColor(secIndex, pixels.Color(10, 10, 10));
+>>>>>>> sht30
     pixels.show();
     
      if (seconds<10) 
@@ -174,7 +233,41 @@ void loop()
     }
     Serial.println((int)seconds); // print the second
   }
+<<<<<<< HEAD
   // wait ten seconds before asking for the time again
+=======
+
+  display.clearDisplay();
+  display.invertDisplay(0);
+  display.setTextSize(1);
+  display.setCursor(0, 0);
+  display.setTextColor(INVERSE);
+
+    if(sht30.get()==0){
+    display.print("T: ");
+    display.setTextSize(2);
+    display.print((int)sht30.cTemp);
+    display.setTextSize(1);
+    display.print((char)247);
+    display.println("C");
+    display.setTextSize(2);
+    display.println();
+    
+    display.setTextSize(1);
+    display.print("H: ");
+    display.setTextSize(2);
+    display.print((int)sht30.humidity);
+    display.setTextSize(1);
+    display.println(" %");
+  }
+  else
+  {
+    display.println("Error!");
+  }
+  display.display();
+
+  
+>>>>>>> sht30
   delay(2400);
   pixels.clear();
 }
